@@ -1,0 +1,13 @@
+@media (max-width:360px){
+    .subContentHeader{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .Inputresponse{
+        margin-top: 10px;
+        margin-bottom: 10px;
+        width: 200%;
+    }
+
+}

@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap');
+.homeContainer{
+  width: 100%;
+  height:100vh;
+  /* background:radial-gradient(rgba(148, 16, 201, 0.5),navy,rgba(148, 16, 201, 0.5))url("../../images/Construction-business.png"); */
+  background: radial-gradient(
+    circle at top right,
+    #16222A, /*#3A6073*/navy
+  );
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+}
+.homeLeftSection{
+  color:#fff;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color:rgb(8, 6, 134);
+  border-color:rgb(8, 6, 134);
+}
+.nav-link{
+  color:rgb(8, 6, 134);
+}
+.homeContainer .homeBodyContainer{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  margin:0 0;
+  padding: 0 0;
+  flex-wrap: wrap;
+}
+.homeLeftSection{
+  margin:0;
+  padding:20px;
+  font-weight:bold;
+  line-height: 5px;
+  letter-spacing: 2px;
+  font-family: 'RocknRoll One', sans-serif;
+  font-size: 24px;
+}
+.homeLeftSection Button{
+  margin:20px;
+  
+}
+.homeRightSection{
+  padding:5px;
+  margin:0 10px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  /* background: linear-gradient(rgba(241, 242, 243, 0.747),rgba(248, 245, 246, 0.5)); */
+  background-color: white;
+  
+}
+.signInForm{
+  padding:40px;
+  min-width:300px;
+  max-width: 380px;
+  min-height:300px;
+}
+.signInFormHead{
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-family: 'Cinzel Decorative', cursive;
+}
+.signInFormHead .logo{
+  background-image: url('../../images/KunnelLogoColor.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  width:100%;
+  background-color: transparent;
+  height:50px;
+  align-items: center;
+  text-align: center;
+}
+.signInForm span{
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+
+}
+.signInForm Button{
+  color:white;
+}

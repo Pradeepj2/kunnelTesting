@@ -1,0 +1,62 @@
+@media screen and (max-width:450px){
+    #layout{
+        display: grid;
+        grid-template-columns: 425px;
+        grid-template-rows: 1fr 1fr;
+        grid-template-areas: "sideBar"
+                             "rightSection";
+    }
+
+    .headerSection{
+        display: none;
+    }
+    .sideBar{
+        height:8vh;
+        width:100%;
+    }
+    .toggleIcon{
+        display: block;
+        cursor: pointer;
+    }
+    .menu{
+     z-index:3;
+     width:100%;
+     background-color: navy;
+     position: absolute;
+     left:0;
+     right:0; 
+     height:50vh;
+     transform: translateX(0%);
+     transition: transform ease-in-out 0.5s;
+    }
+    .isActive{   
+     transform: translateX(100%);
+     transition: transform ease-in-out 0.5s;
+    }
+    .menu .menuItems{
+        display: block;
+        
+    }
+   
+    .menu .menuItems li a{
+        display: block;
+        margin: 20px 0 20px 20px;
+    }
+    .homeLeftSection{
+        display: none;
+    }
+}
+@media screen and (max-width:1023px) and (min-width:456px){
+    #layout{
+        display: grid;
+        grid-template-columns: 10% 90%;
+        grid-template-rows: 1fr;
+        grid-template-areas: "sideBar" "rightSection";
+    }
+    .navTitles{
+        display: none;
+    }
+    .company{
+        display: none;
+    }
+}

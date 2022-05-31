@@ -1,0 +1,6 @@
+.loadingSiteModal{
+    z-index:99999999999;
+    position:absolute;   
+    top:20vh;
+    left:60vh;
+    }
