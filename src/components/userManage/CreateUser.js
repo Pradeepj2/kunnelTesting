@@ -379,17 +379,17 @@ const CreateUser = ({
       temp = [...temp, e.target.value];
       setAllPermission(temp);
     }
-    if(allPermission && allPermission.length > 0){
-      let tempArr = []
+    if (allPermission && allPermission.length > 0) {
+      let tempArr = [];
       allPermission.map((item) => {
-        let isItemExist = tempArr.includes(item)
-        console.log(isItemExist, item)
-        if(!isItemExist){
-          tempArr.push(item)
+        let isItemExist = tempArr.includes(item);
+        // console.log(isItemExist, item)
+        if (!isItemExist) {
+          tempArr.push(item);
         }
-      })
-      console.log(tempArr)
-      setPermissions(tempArr)
+      });
+      // console.log(tempArr)
+      setPermissions(tempArr);
     }
   };
 
@@ -403,7 +403,7 @@ const CreateUser = ({
     const temp = tempobj.map((obj) => {
       obj.Option.map((val) => (val?.isChecked ? (val.isChecked = false) : val));
     });
-    console.log(tempobj);
+    // console.log(tempobj);
     setRadioButton(tempobj);
   };
 

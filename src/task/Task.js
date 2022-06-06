@@ -124,7 +124,7 @@ function Task({ sites }) {
           let arr = [];
 
           res.data.map((val) => {
-            console.log(val);
+            // console.log(val);
             arr.push([val.task_code, val.task_name].join(" , "));
           });
           SettaskOptions(arr);

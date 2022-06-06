@@ -21,7 +21,7 @@ const TaskCodeModal = (props) => {
   });
 
   const classes = useStyles;
-  console.log(props.labourInfo, props.labourTaskList)
+  // console.log(props.labourInfo, props.labourTaskList)
   return (
     <>
       <Modal
@@ -36,9 +36,15 @@ const TaskCodeModal = (props) => {
           style={{ textAlign: "center" }}
         ></Modal.Header>
         <ModalBody>
-          {props.labourInfo && props.labourTaskList &&
-            <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
-              <div style={{ textAlign: 'center' }}>
+          {props.labourInfo && props.labourTaskList && (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                flexDirection: "column",
+              }}
+            >
+              <div style={{ textAlign: "center" }}>
                 <h3>Tasks For Labour {props.labourInfo.labourer_name}</h3>
                 <h5>Labour Id {props.labourInfo.labourerid}</h5>
                 <h5>Designation {props.labourInfo.designation}</h5>
@@ -49,28 +55,36 @@ const TaskCodeModal = (props) => {
                     <TableHead>
                       <TableRow>
                         <TableCell>Date</TableCell>
-                        <TableCell>{'Task code & name'}</TableCell>
+                        <TableCell>{"Task code & name"}</TableCell>
                         <TableCell>Daily Wage</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {props.labourTaskList && props.labourTaskList.map(item => {
-                        return (
-                          <TableRow>
-                            <TableCell>{item.date}</TableCell>
-                            {item.task_code === null && item.task_name === null && <TableCell>{'0'}</TableCell>}
-                            {item.task_code !== null && item.task_name !== null && <TableCell>{`${item.task_code}, ${item.task_name}`}</TableCell>}
-                            <TableCell>{props.labourInfo.daily_rate}</TableCell>
-                          </TableRow>
-                        )
-                      })
-                      }
+                      {props.labourTaskList &&
+                        props.labourTaskList.map((item) => {
+                          return (
+                            <TableRow>
+                              <TableCell>{item.date}</TableCell>
+                              {item.task_code === null &&
+                                item.task_name === null && (
+                                  <TableCell>{"0"}</TableCell>
+                                )}
+                              {item.task_code !== null &&
+                                item.task_name !== null && (
+                                  <TableCell>{`${item.task_code}, ${item.task_name}`}</TableCell>
+                                )}
+                              <TableCell>
+                                {props.labourInfo.daily_rate}
+                              </TableCell>
+                            </TableRow>
+                          );
+                        })}
                     </TableBody>
                   </Table>
                 </TableContainer>
               </Paper>
             </div>
-          }
+          )}
         </ModalBody>
       </Modal>
     </>
