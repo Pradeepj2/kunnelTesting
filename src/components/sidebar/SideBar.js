@@ -6,6 +6,7 @@ import * as HiIcons from "react-icons/hi";
 import * as ImIcons from "react-icons/im";
 import * as RiIcons from "react-icons/ri";
 import * as BiIcons from "react-icons/bi";
+import * as FiIcons from "react-icons/fa";
 import { AiFillCalendar } from "react-icons/ai";
 import { AiFillSetting } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
@@ -76,13 +77,13 @@ const SidebarData = [
   {
     title: "Compensation",
     path: "/compensation",
-    icon: <GiIcons.GiReceiveMoney />,
+    icon: <FiIcons.FaCentercode />,
     name: "nav-text",
   },
   {
     title: "Retention",
     path: "/retention",
-    icon: <GiIcons.GiReceiveMoney />,
+    icon: <FiIcons.FaCreativeCommonsNd />,
     name: "nav-text",
   },
   // {

@@ -9,6 +9,7 @@ const AdvancedSetting = () => {
   const [type, setType] = useState("");
   const [name, setName] = useState("");
   const [preFes, setPreFes] = useState([]);
+  const [preSp, setPreSp] = useState([]);
 
   const { enqueueSnackbar } = useSnackbar();
   const showsuccErr = ({ msg, variant }) => {
@@ -26,6 +27,16 @@ const AdvancedSetting = () => {
       })
       .then((res) => {
         if (res.status === 200) setPreFes(res.data);
+      });
+
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/advance/create_occassion/ `, {
+        headers: {
+          Authorization: `Token ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        if (res.status === 200) setPreSp(res.data);
       });
   }, []);
 
@@ -106,8 +117,19 @@ const AdvancedSetting = () => {
                 required: true,
               })}
             />
-            {preFes.some(
+            {type === "F" &&
+            preFes.some(
               (data) => name.toLowerCase() === data.festival_name.toLowerCase()
+            ) ? (
+              <p className="text-danger">
+                <small>
+                  <i>Already Exist</i>
+                </small>
+              </p>
+            ) : null}
+            {type === "S" &&
+            preSp.some(
+              (data) => name.toLowerCase() === data.occasion_name.toLowerCase()
             ) ? (
               <p className="text-danger">
                 <small>

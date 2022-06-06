@@ -215,12 +215,23 @@ const Compensation = (props) => {
               </div>
             </div>
           </Form.Group>
+
+          <Form.Group controlId="generate">
+            <Button
+              style={{ margin: "15px", marginTop: "25px" }}
+              type="submit"
+              variant="primary"
+            >
+              generate
+            </Button>
+          </Form.Group>
           <Form.Group as={Col} controlId="ratio">
             <Form.Label>Ratio</Form.Label>
             <div
               style={{
                 display: "flex",
                 fontSize: "1.3rem",
+                marginLeft: "5px",
               }}
             >
               <Form.Control
@@ -231,8 +242,8 @@ const Compensation = (props) => {
                 style={{
                   width: "47px",
                   border: "0.3px solid black",
-                  marginRight: "8px",
-                  marginLeft: "15px",
+                  marginRight: "15px",
+                  marginLeft: "8px",
                 }}
                 readOnly="true"
               ></Form.Control>
@@ -245,15 +256,6 @@ const Compensation = (props) => {
                 </small>
               </p>
             )}
-          </Form.Group>
-          <Form.Group controlId="generate">
-            <Button
-              style={{ marginLeft: "5px", marginTop: "25px" }}
-              type="submit"
-              variant="primary"
-            >
-              generate
-            </Button>
           </Form.Group>
         </Form.Row>
         <Form.Row

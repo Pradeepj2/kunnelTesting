@@ -44,7 +44,7 @@ export const advance_total_list = (data) => async (dispatch) => {
     })
     .then((response) => {
       if (response.status === 200) {
-        // console.log(response.data, "FINSL");
+        // console.log(renpssponse.data, "FINSL");
         dispatch({
           type: "ADVANCE_TOTAL_LIST",
           payload: response.data,
