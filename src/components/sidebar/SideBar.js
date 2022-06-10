@@ -7,6 +7,7 @@ import * as ImIcons from "react-icons/im";
 import * as RiIcons from "react-icons/ri";
 import * as BiIcons from "react-icons/bi";
 import * as FiIcons from "react-icons/fa";
+import * as MdIcon from "react-icons/md";
 import { AiFillCalendar } from "react-icons/ai";
 import { AiFillSetting } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
@@ -86,12 +87,12 @@ const SidebarData = [
     icon: <FiIcons.FaCreativeCommonsNd />,
     name: "nav-text",
   },
-  // {
-  //   title: 'Finance',
-  //   path: '/finance',
-  //   icon: <MdIcons.MdWork />,
-  //   name: 'nav-text',
-  // },
+  {
+    title: "Arrears",
+    path: "/arrears",
+    icon: <MdIcon.MdOutlinePendingActions />,
+    name: "nav-text",
+  },
   {
     title: "Labour OT",
     path: "/labourot",
@@ -158,7 +159,7 @@ const SideBar = () => {
   var finalData = [];
 
   const permissions = localStorage.getItem("permissions");
-  console.log("testing>>>>>>>>>", permissions.includes("Alluser"));
+  // console.log("testing>>>>>>>>>", permissions.includes("Alluser"));
 
   const handleToggle = (menuRef) => {
     menuRef.current.style.display = display;
@@ -173,7 +174,7 @@ const SideBar = () => {
   var userType = localStorage.getItem("userType");
   if (role === "Finance") {
     finalData = SidebarData.filter(
-      (obj) => obj.title !== "User Management" && obj.title !== "Labour OT"
+      (obj) => obj.title != "User Management" && obj.title != "Labour OT"
     );
   } else if (role === "OperationDept") {
     if (userType === "ProjectManager") {

@@ -60,7 +60,7 @@ const StickyHeadTable = (props) => {
     let temp = "";
     let str = localStorage.getItem("permissions");
     for (let i = 0; i < str.length; i++) {
-      if (str[i] !== ",") {
+      if (str[i] != ",") {
         temp += str[i];
       } else {
         if (temp === "deletesite") setdeletesite(true);
@@ -87,7 +87,7 @@ const StickyHeadTable = (props) => {
     var del = delarr;
 
     if (del.some((ele) => ele === row.id))
-      del = del.filter((ele) => ele !== row.id);
+      del = del.filter((ele) => ele != row.id);
     else {
       del.push(row.id);
     }

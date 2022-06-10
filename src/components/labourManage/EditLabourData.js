@@ -61,7 +61,7 @@ const EditLabourData = ({
     let str = localStorage.getItem("permissions");
     let temp = "";
     for (let i = 0; i < str.length; i++) {
-      if (str[i] !== ",") {
+      if (str[i] != ",") {
         temp += str[i];
       } else {
         if (temp === "editlabour") seteditlabour(true);
@@ -130,7 +130,7 @@ const EditLabourData = ({
   // };
 
   const handleValid = (e) => {
-    if (e.target.id === "ACNumber" && labourData.ACNumber !== e.target.value) {
+    if (e.target.id === "ACNumber" && labourData.ACNumber != e.target.value) {
       const result = laboursData.some(
         (item) => item.ACNumber === e.target.value
       );
@@ -142,7 +142,7 @@ const EditLabourData = ({
     }
     if (
       e.target.id === "aadharNumber" &&
-      labourData.aadharNumber !== e.target.value
+      labourData.aadharNumber != e.target.value
     ) {
       const result = laboursData.some(
         (item) => item.aadharNumber === e.target.value
@@ -153,7 +153,7 @@ const EditLabourData = ({
         setAadharError(false);
       }
     }
-    if (e.target.id === "contact" && labourData.contact !== e.target.value) {
+    if (e.target.id === "contact" && labourData.contact != e.target.value) {
       const result = laboursData.some(
         (item) => item.contact === e.target.value
       );

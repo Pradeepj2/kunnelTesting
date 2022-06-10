@@ -170,7 +170,7 @@ const CreateSite = ({
         <Alert severity="success">New site added successfully</Alert>
       </Snackbar>
       <Snackbar
-        open={error !== null}
+        open={error != null}
         autoHideDuration={1000}
         onClose={() => setError(null)}
       >

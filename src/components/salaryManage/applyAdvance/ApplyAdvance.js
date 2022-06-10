@@ -487,14 +487,14 @@ const ApplyAdvance = ({
                   <option key="" value="">
                     Select
                   </option>
-                  {festivalList.length !== 0 && selectType === "F"
+                  {festivalList.length != 0 && selectType === "F"
                     ? festivalList.map((val) => {
                         return (
                           <option key={val.id}>{val.festival_name}</option>
                         );
                       })
                     : null}
-                  {occasionList.length !== 0 && selectType === "S"
+                  {occasionList.length != 0 && selectType === "S"
                     ? occasionList.map((val) => {
                         return (
                           <option key={val.id}>{val.occasion_name}</option>

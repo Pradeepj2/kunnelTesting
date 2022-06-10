@@ -169,7 +169,7 @@ const StickyHeadTable = ({
                       <TableCell>{rows.indexOf(row) + 1}</TableCell>
                       {columns.map((column) => {
                         var value;
-                        if (column.id !== "status") value = row[column.id];
+                        if (column.id != "status") value = row[column.id];
                         if (
                           column.id === "attendance" ||
                           column.id === "advance"

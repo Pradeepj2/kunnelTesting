@@ -192,9 +192,9 @@ const SalaryManage = ({
         </Tabs>
       </div>
 
-      <CreateSalaryStructure />
+      <CreateSalaryStructure revalidate={revalidate} />
       <EditSalaryStructure revalidate={revalidate} />
-      <ApplyAdvance />
+      <ApplyAdvance revalidate={revalidate} />
     </div>
   );
 };

@@ -26,6 +26,7 @@ const EditSalaryStructure = ({
 
   ///########################declaring states######################//
   //const [dailyRate,setDailyRate] = useState();
+
   const [basicPay, setBasicPay] = useState(salaryCodeEdit.basic_pay);
   const [dailyAllowance, setDailyAllowance] = useState(
     salaryCodeEdit.daily_allowence
@@ -54,10 +55,14 @@ const EditSalaryStructure = ({
         },
       })
       .then((res) => {
+        console.log(res, "UP");
         setDesignation(res.data);
       });
 
-    if (pre !== designation) Setpre(designation);
+    if (pre != designation) {
+      console.log(designation, "DOWN");
+      Setpre(designation);
+    }
   }, [pre]);
 
   const dailyRateCalculation = () => {
@@ -187,6 +192,9 @@ const EditSalaryStructure = ({
         />
         <Modal.Header closeButton>
           <Modal.Title>Edit Wage Code</Modal.Title>
+          <h5 style={{ margin: "auto", fontWeight: "initial" }}>
+            Current Wage Code : {[, salaryCodeEdit.wagecode].join(" ")}
+          </h5>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit(onSubmit)}>

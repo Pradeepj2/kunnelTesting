@@ -139,7 +139,7 @@ const LabourDetailModal = (props) => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {labours.length !== 0 ? (
+                  {labours.length != 0 ? (
                     labours
                       .slice(
                         page * rowsPerPage,

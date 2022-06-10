@@ -61,7 +61,7 @@ const StickyHeadTable = (props) => {
     let temp = "";
 
     for (let i = 0; i < str.length; i++) {
-      if (str[i] !== ",") {
+      if (str[i] != ",") {
         temp += str[i];
       } else {
         if (temp === "Alluser") setAlluser(true);
@@ -147,7 +147,8 @@ const StickyHeadTable = (props) => {
                   JSON.stringify(obj)
                     .toLowerCase()
                     .includes(props.query.toLowerCase())
-                )  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                )
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 
                 .map((row, idx) => {
                   return (

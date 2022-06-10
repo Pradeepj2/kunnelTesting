@@ -17,10 +17,11 @@ import UserManage from "./components/userManage/UserManage";
 import SpecificHolidayList from "./components/Holidays/specificHolidayList";
 import Setting from "./components/Setting/setting";
 import LabourOT from "./components/LabourOT/LabourOT";
-import Task from "./task/Task";
+import Task from "./components/task/Task";
 import Conpensation from "./components/compensation/Conpensation";
 import Retention from "./components/retention/Retention";
 import { SnackbarProvider } from "notistack";
+import Arrears from "./components/arrears/Arrears";
 
 const App = () => {
   const [token, setToken] = React.useState(localStorage.getItem("token"));
@@ -93,6 +94,11 @@ const App = () => {
                 <Route path="/retention">
                   <Layout>
                     <Retention />
+                  </Layout>
+                </Route>
+                <Route path="/arrears">
+                  <Layout>
+                    <Arrears />
                   </Layout>
                 </Route>
                 <Route path="/benefits">

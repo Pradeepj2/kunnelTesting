@@ -5,14 +5,15 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { create_salary_structure_modal } from "../../redux/actions/fetchActions";
 import SiteModal from "../utilModals/siteModal";
-//import Alert from '../Shared/Alert.jsx'
-//import { Snackbar } from '@material-ui/core';
 import { useSnackbar } from "notistack";
+import { salary_codes } from "../../redux/actions/siteActions";
 
 const CreateSalaryStructure = ({
   create_salary_structure_modal,
   createSalaryStructure,
+  salaryCodes,
   sites,
+  revalidate,
 }) => {
   const { register, handleSubmit, errors } = useForm({ mode: "onTouched" });
   const [designation, setDesignation] = useState([]);
@@ -23,8 +24,6 @@ const CreateSalaryStructure = ({
   const showsuccErr = ({ msg, variant }) => {
     enqueueSnackbar(msg, { variant });
   };
-
-  // const [tempdesignation, setDesignation] = useState([]);
 
   useEffect(() => {
     axios
@@ -37,7 +36,7 @@ const CreateSalaryStructure = ({
         setDesignation(res.data);
       });
 
-    if (pre !== designation) Setpre(designation);
+    if (pre != designation) Setpre(designation);
   }, [pre]);
 
   ///########################declaring states######################//
@@ -49,12 +48,20 @@ const CreateSalaryStructure = ({
   const [siteid, setSiteid] = useState("");
   const [siteCode, setSiteCode] = useState("");
 
+  const [arrearsNewDailyRate, setArrearsNewDailyRate] = useState("");
+  const [arrearsNewOtRate, setArrearsNewOtRate] = useState("");
+  const [arrearsFromDate, setArrearsFromDate] = useState("");
+  const [wageCode, setWageCode] = useState("");
+
   const onSubmit = (data) => {
     let Data = {
       ...data,
       daily_rate: String(total),
       OTtype: category === "Union" ? "double" : "fixed",
       Site: siteid,
+      arrears_new_daily_rate: arrearsNewDailyRate,
+      arrears_new_ot_rate: arrearsNewOtRate,
+      arrears_from_date: arrearsFromDate,
     };
 
     axios
@@ -69,18 +76,20 @@ const CreateSalaryStructure = ({
       )
       .then((res) => {
         if (res.data.status === true) {
-          //create_salary_structure_modal(false)
           showsuccErr({ msg: "Created succesfully", variant: "success" });
-          // alert("Created succesfully");
-          // window.location.reload();
+          create_salary_structure_modal(false);
           setBasicPay();
           setDailyAllowance();
           setCategory("");
+          revalidate();
+          setSiteCode("");
+          setSiteid("");
+          setArrearsFromDate("");
+          setArrearsNewDailyRate("");
+          setArrearsNewOtRate("");
+          setWageCode("");
         } else {
           create_salary_structure_modal(false);
-          // for (let item in res.data.message) {
-          //   alert(`${item}: ${res.data.message[item]}`);
-          // }
           showsuccErr({ msg: res.data.message, variant: "error" });
         }
       })
@@ -366,75 +375,6 @@ const CreateSalaryStructure = ({
                   </p>
                 )}
               </Form.Group>
-              <Form.Group as={Col} controlId="daily_rate">
-                <Form.Label>Daily Rate</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder={total}
-                  disabled={true}
-                  value={total}
-                  name="daily_rate"
-                  ref={register({
-                    required: true,
-                  })}
-                />
-                {/*  <button style={{border:'none', backgroundColor:'#212529',color:'white',padding:'3px',marginTop:'3px',borderRadius:'3px'}}
-                onClick={(e)=>setDailyRate(+basicPay + +dailyAllowance)}>get Daily Rate</button>*/}
-                {errors.daily_rate?.type === "required" && (
-                  <p className="text-danger">
-                    <small>
-                      <i>This field is required</i>
-                    </small>
-                  </p>
-                )}
-              </Form.Group>
-            </Form.Row>
-            <Form.Row>
-              <Form.Group as={Col} controlId="basic_pay">
-                <Form.Label>Basic Pay</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter the amount"
-                  onChange={(e) => {
-                    setBasicPay(e.target.value);
-                    // setDailyRate(+basicPay + +dailyAllowance)
-                  }}
-                  name="basic_pay"
-                  ref={register({
-                    required: true,
-                  })}
-                />
-                {errors.basic_pay?.type === "required" && (
-                  <p className="text-danger">
-                    <small>
-                      <i>This field is required</i>
-                    </small>
-                  </p>
-                )}
-              </Form.Group>
-              <Form.Group as={Col} controlId="daily_allowence">
-                <Form.Label>Daily Allowance</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter daily Allowance"
-                  name="daily_allowence"
-                  onChange={(e) => {
-                    setDailyAllowance(e.target.value);
-                    // setDailyRate(+dailyAllowance + +basicPay)
-                    //console.log(dailyRate)
-                  }}
-                  ref={register({
-                    required: true,
-                  })}
-                />
-                {errors.daily_allowence?.type === "required" && (
-                  <p className="text-danger">
-                    <small>
-                      <i>This field is required</i>
-                    </small>
-                  </p>
-                )}
-              </Form.Group>
               <Form.Group as={Col} controlId="Site">
                 <Form.Label>Site Code</Form.Label>
                 <div
@@ -492,6 +432,141 @@ const CreateSalaryStructure = ({
                     </Button>
                   </div>
                 </div>
+              </Form.Group>
+            </Form.Row>
+            <Form.Row>
+              <Form.Group as={Col} controlId="basic_pay">
+                <Form.Label>Basic Pay</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter the amount"
+                  onChange={(e) => {
+                    setBasicPay(e.target.value);
+                    // setDailyRate(+basicPay + +dailyAllowance)
+                  }}
+                  name="basic_pay"
+                  ref={register({
+                    required: true,
+                  })}
+                />
+                {errors.basic_pay?.type === "required" && (
+                  <p className="text-danger">
+                    <small>
+                      <i>This field is required</i>
+                    </small>
+                  </p>
+                )}
+              </Form.Group>
+              <Form.Group as={Col} controlId="daily_allowence">
+                <Form.Label>Daily Allowance</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter daily Allowance"
+                  name="daily_allowence"
+                  onChange={(e) => {
+                    setDailyAllowance(e.target.value);
+                    // setDailyRate(+dailyAllowance + +basicPay)
+                    //console.log(dailyRate)
+                  }}
+                  ref={register({
+                    required: true,
+                  })}
+                />
+                {errors.daily_allowence?.type === "required" && (
+                  <p className="text-danger">
+                    <small>
+                      <i>This field is required</i>
+                    </small>
+                  </p>
+                )}
+              </Form.Group>
+              <Form.Group as={Col} controlId="daily_rate">
+                <Form.Label>Daily Rate</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder={total}
+                  disabled={true}
+                  value={total >= 0 ? total : "0"}
+                  name="daily_rate"
+                  ref={register({
+                    required: true,
+                  })}
+                />
+                {errors.daily_rate?.type === "required" && (
+                  <p className="text-danger">
+                    <small>
+                      <i>This field is required</i>
+                    </small>
+                  </p>
+                )}
+              </Form.Group>
+            </Form.Row>
+            {/* ******************************************** */}
+            <Form.Row>
+              <Form.Group as={Col} controlId="arrears_new_daily_rate">
+                <Form.Label>Arrears New Daily Rate</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter the amount"
+                  value={arrearsNewDailyRate}
+                  onChange={(e) => {
+                    setArrearsNewDailyRate(e.target.value);
+                  }}
+                  name="arrears_new_daily_rate"
+                  ref={register({
+                    required: true,
+                  })}
+                />
+                {errors.arrears_new_daily_rate?.type === "required" && (
+                  <p className="text-danger">
+                    <small>
+                      <i>This field is required</i>
+                    </small>
+                  </p>
+                )}
+              </Form.Group>
+              <Form.Group as={Col} controlId="arrears_new_ot_rate">
+                <Form.Label>Arrears New OT Rate</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={arrearsNewOtRate}
+                  placeholder="Enter new Ot rate"
+                  name="arrears_new_ot_rate"
+                  onChange={(e) => {
+                    setArrearsNewOtRate(e.target.value);
+                    // setDailyRate(+dailyAllowance + +basicPay)
+                    //console.log(dailyRate)
+                  }}
+                  ref={register({
+                    required: true,
+                  })}
+                />
+                {errors.arrears_new_ot_rate?.type === "required" && (
+                  <p className="text-danger">
+                    <small>
+                      <i>This field is required</i>
+                    </small>
+                  </p>
+                )}
+              </Form.Group>
+              <Form.Group as={Col} controlId="arrears_from_date">
+                <Form.Label>Arrears From Date</Form.Label>
+                <Form.Control
+                  type="date"
+                  value={arrearsFromDate}
+                  onChange={(e) => setArrearsFromDate(e.target.value)}
+                  name="arrears_from_date"
+                  ref={register({
+                    required: true,
+                  })}
+                />
+                {errors.arrears_from_date?.type === "required" && (
+                  <p className="text-danger">
+                    <small>
+                      <i>This field is required</i>
+                    </small>
+                  </p>
+                )}
               </Form.Group>
             </Form.Row>
             <Form.Row>
@@ -766,6 +841,8 @@ const CreateSalaryStructure = ({
                 <Form.Control
                   type="number"
                   placeholder="Enter Wage Code"
+                  onChange={(e) => setWageCode(e.target.value)}
+                  value={wageCode}
                   name="wagecode"
                   ref={register({
                     required: true,
@@ -775,6 +852,15 @@ const CreateSalaryStructure = ({
                   <p className="text-danger">
                     <small>
                       <i>This field is required</i>
+                    </small>
+                  </p>
+                )}
+                {salaryCodes.some(
+                  (obj) => obj.wagecode === parseInt(wageCode)
+                ) && (
+                  <p className="text-danger">
+                    <small>
+                      <i>already exists</i>
                     </small>
                   </p>
                 )}
@@ -792,7 +878,9 @@ const CreateSalaryStructure = ({
 const mapStateToProps = (state) => ({
   createSalaryStructure: state.createSalaryStructure,
   sites: state.sites,
+  salaryCodes: state.salaryCodes,
 });
-export default connect(mapStateToProps, { create_salary_structure_modal })(
-  CreateSalaryStructure
-);
+export default connect(mapStateToProps, {
+  create_salary_structure_modal,
+  salary_codes,
+})(CreateSalaryStructure);

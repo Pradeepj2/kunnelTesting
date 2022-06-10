@@ -69,8 +69,8 @@ const TaskCodeModal = (props) => {
                                 item.task_name === null && (
                                   <TableCell>{"0"}</TableCell>
                                 )}
-                              {item.task_code !== null &&
-                                item.task_name !== null && (
+                              {item.task_code != null &&
+                                item.task_name != null && (
                                   <TableCell>{`${item.task_code}, ${item.task_name}`}</TableCell>
                                 )}
                               <TableCell>

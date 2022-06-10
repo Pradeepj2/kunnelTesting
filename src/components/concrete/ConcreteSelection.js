@@ -107,7 +107,7 @@ const StickyHeadTable = (props) => {
       .catch((error) => {
         console.log(error);
       });
-    if (role !== "superadmin") setUserType(name);
+    if (role != "superadmin") setUserType(name);
   }, []);
 
   useEffect(() => {
@@ -156,7 +156,7 @@ const StickyHeadTable = (props) => {
   //       });
 
   //       const newArry = getUnique(obj, "id");
-  //       if (newArry.length !== 0) setRows(newArry);
+  //       if (newArry.length != 0) setRows(newArry);
   //     }
   //   }, [sitecode]);
 

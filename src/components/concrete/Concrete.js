@@ -25,7 +25,7 @@ const Concrete = () => {
     let str = localStorage.getItem("permissions");
     let temp = "";
     for (let i = 0; i < str.length; i++) {
-      if (str[i] !== ",") {
+      if (str[i] != ",") {
         temp += str[i];
       } else {
         if (temp === "Allconcrete") {

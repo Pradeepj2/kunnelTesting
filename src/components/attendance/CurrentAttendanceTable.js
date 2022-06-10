@@ -391,10 +391,10 @@ const StickyHeadTable = ({ sites }) => {
                 rows
                   .filter((row) =>
                     category === "subcontractor"
-                      ? row.subcontractor !== null
+                      ? row.subcontractor != null
                       : category === ""
                       ? true
-                      : category !== "subcontractor" && category !== ""
+                      : category != "subcontractor" && category != ""
                       ? row.class === category
                       : true
                   ) // filtering through different labour categories and sub contractor

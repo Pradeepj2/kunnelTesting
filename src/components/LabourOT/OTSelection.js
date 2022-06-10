@@ -70,7 +70,7 @@ const StickyHeadTable = (props) => {
       .catch((err) => {
         alert(err);
       });
-    if (role !== "superadmin") setUserType(name);
+    if (role != "superadmin") setUserType(name);
   }, []);
 
   useEffect(() => {

@@ -36,7 +36,7 @@ const CurrentAttendanceModal = (props) => {
       todate: props.todate,
     };
     setLabourer(props.labourerId);
-    if (props.labourerId !== undefined) {
+    if (props.labourerId != undefined) {
       axios
         .post(
           `${process.env.REACT_APP_API_URL}/attendancemanage/current_attendance_active_hours_detailed`,
@@ -152,7 +152,7 @@ const CurrentAttendanceModal = (props) => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {attendance.length !== 0 ? (
+                  {attendance.length != 0 ? (
                     attendance
                       .slice(
                         page * rowsPerPage,

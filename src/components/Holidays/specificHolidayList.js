@@ -108,7 +108,7 @@ const SpecificHolidayList = (props) => {
 
   // logic to make an array of desired objects from holidays array
   const showData = [];
-  if (holidays !== []) {
+  if (holidays != []) {
     var n = 0;
     var c = 0;
     var c2 = 0;
@@ -118,8 +118,8 @@ const SpecificHolidayList = (props) => {
         from_date: holidays[c2].date,
         to_date: holidays[n].date,
       };
-      if (n + 1 !== holidays.length) {
-        if (holidays[n].description !== holidays[n + 1].description) {
+      if (n + 1 != holidays.length) {
+        if (holidays[n].description != holidays[n + 1].description) {
           c++;
           c2 = n + 1;
         }

@@ -57,11 +57,11 @@ const EditAdjustment = (props) => {
     // var site = "";
     // var labour = "";
 
-    // if (siteid.toString().split("0") !== siteid)
+    // if (siteid.toString().split("0") != siteid)
     //   site = siteid.toString().split("site00")[1];
     // else site = siteid;
 
-    // if (labourerId.toString().split("0") !== labourerId)
+    // if (labourerId.toString().split("0") != labourerId)
     //   labour = labourerId.toString().split("LAB00")[1];
     // else labour = labourerId;
 

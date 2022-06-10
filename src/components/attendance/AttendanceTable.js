@@ -161,7 +161,7 @@ const StickyHeadTable = ({ sites, site_list }) => {
     var str = e.target.innerText;
     let temp = "";
     for (let i = 0; i < str.length; i++) {
-      if (str[i] !== " ") {
+      if (str[i] != " ") {
         temp += str[i];
       } else {
         break;
@@ -472,10 +472,10 @@ const StickyHeadTable = ({ sites, site_list }) => {
                 attendance
                   .filter((row) =>
                     category === "subcontractor"
-                      ? row.subcontractor !== null
+                      ? row.subcontractor != null
                       : category === ""
                       ? true
-                      : category !== "subcontractor" && category !== ""
+                      : category != "subcontractor" && category != ""
                       ? row.category === category
                       : true
                   ) // filtering through different labour categories and sub contractor

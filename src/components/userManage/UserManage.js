@@ -21,7 +21,7 @@ const UserManage = ({ toggle_user_create_model, users_list, users }) => {
     let temp = "";
 
     for (let i = 0; i < str.length; i++) {
-      if (str[i] !== ",") {
+      if (str[i] != ",") {
         temp += str[i];
       } else {
         if (temp === "Alluser") setAlluser(true);

@@ -299,7 +299,7 @@ const Retention = (props) => {
             marginTop: "15px",
             padding: "8px",
             lineHeight: "0.5",
-            display: "flex",
+            display: "xgrow",
             flexDirection: "row-reverse",
             background: "navy",
             color: "white",

@@ -221,7 +221,7 @@ const RegisterLabour = ({
           </Alert>
         </Snackbar>
         <Snackbar
-          open={error !== null}
+          open={error != null}
           autoHideDuration={1000}
           onClose={() => setError(null)}
         >

@@ -43,7 +43,7 @@ const EditUserData = ({
     let temp = "";
 
     for (let i = 0; i < str.length; i++) {
-      if (str[i] !== ",") {
+      if (str[i] != ",") {
         temp += str[i];
       } else {
         if (temp === "Alluser") setAlluser(true);
@@ -309,10 +309,10 @@ const EditUserData = ({
   // const changeHandler = (e) => {
   //   let temp = [];
   //   let flag = 0;
-  //   if (allPermission.length !== 0) {
+  //   if (allPermission.length != 0) {
   //     for (let i = 0; i < allPermission.length; i++) {
   //       // console.log(temp[i]);
-  //       if (allPermission[i] !== e.target.value) {
+  //       if (allPermission[i] != e.target.value) {
   //         temp = [...temp, allPermission[i]];
   //       } else {
   //         flag = 1;
@@ -340,9 +340,9 @@ const EditUserData = ({
   const changeHandler = ({ e, obj }) => {
     let temp = [];
     let flag = 0;
-    if (allPermission.length !== 0) {
+    if (allPermission.length != 0) {
       for (let i = 0; i < allPermission.length; i++) {
-        if (allPermission[i] !== e.target.value) {
+        if (allPermission[i] != e.target.value) {
           temp = [...temp, allPermission[i]];
         } else {
           flag = 1;
@@ -366,7 +366,7 @@ const EditUserData = ({
         } else {
           if (e.target.checked === false) {
             data.Option[0].isChecked = false;
-            temp = temp.filter((val) => val !== data.Option[0].value);
+            temp = temp.filter((val) => val != data.Option[0].value);
           }
           data.Option.map((inner) =>
             inner.value === e.target.value

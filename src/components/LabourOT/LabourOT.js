@@ -21,7 +21,7 @@ const LabourOT = () => {
     let str = localStorage.getItem("permissions");
     let temp = "";
     for (let i = 0; i < str.length; i++) {
-      if (str[i] !== ",") {
+      if (str[i] != ",") {
         temp += str[i];
       } else {
         if (temp === "createot") {
@@ -160,7 +160,7 @@ const LabourOT = () => {
         </Tabs>
       );
 
-      if (tempapprovalid !== approvalId) {
+      if (tempapprovalid != approvalId) {
         settempapprovalid(approvalId);
       }
       setBody(element);
