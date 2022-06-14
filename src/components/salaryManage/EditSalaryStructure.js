@@ -55,12 +55,10 @@ const EditSalaryStructure = ({
         },
       })
       .then((res) => {
-        console.log(res, "UP");
         setDesignation(res.data);
       });
 
     if (pre != designation) {
-      console.log(designation, "DOWN");
       Setpre(designation);
     }
   }, [pre]);

@@ -61,6 +61,7 @@ const SidebarData = [
     path: "/tasks",
     icon: <BiIcons.BiTask />,
     name: "nav-text",
+    perTitle: ["task"],
   },
   {
     title: "Labour Benefits",
@@ -80,18 +81,21 @@ const SidebarData = [
     path: "/compensation",
     icon: <FiIcons.FaCentercode />,
     name: "nav-text",
+    perTitle: ["compensation"],
   },
   {
     title: "Retention",
     path: "/retention",
     icon: <FiIcons.FaCreativeCommonsNd />,
     name: "nav-text",
+    perTitle: ["retention"],
   },
   {
     title: "Arrears",
     path: "/arrears",
     icon: <MdIcon.MdOutlinePendingActions />,
     name: "nav-text",
+    perTitle: ["arrears"],
   },
   {
     title: "Labour OT",
@@ -159,6 +163,7 @@ const SideBar = () => {
   var finalData = [];
 
   const permissions = localStorage.getItem("permissions");
+  // permissions = [...permissions, "retention"];
   // console.log("testing>>>>>>>>>", permissions.includes("Alluser"));
 
   const handleToggle = (menuRef) => {
@@ -196,7 +201,11 @@ const SideBar = () => {
           obj.title === "Labour Management" ||
           obj.title === "Concrete" ||
           obj.title === "Holidays" ||
-          obj.title === "Labour OT"
+          obj.title === "Labour OT" ||
+          obj.title === "Compensation" ||
+          obj.title === "Retention" ||
+          obj.title === "Arrears" ||
+          obj.title == "Task"
       );
     }
   } else {

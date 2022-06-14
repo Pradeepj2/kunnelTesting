@@ -25,6 +25,7 @@ const LabourWithFilter = (props) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [labours, setLabours] = useState([]);
+  const [selected, setSelected] = useState([]);
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/labourermanage/labourer/`, {
@@ -37,7 +38,6 @@ const LabourWithFilter = (props) => {
           let filterFinalyData = res.data.data.filter(
             (labour) => labour.site_code === props.filterParameter
           );
-          console.log(filterFinalyData);
           setLabours(filterFinalyData);
         }
       })
@@ -46,6 +46,17 @@ const LabourWithFilter = (props) => {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+  };
+
+  const checkHandler = (e, idx) => {
+    var selected = [];
+    var n = labours.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+    for (var i = 0; i < n.length; i++) {
+      if (i === idx) {
+        selected.push(n[i]);
+      }
+    }
+    setSelected(selected);
   };
 
   const handleChangeRowsPerPage = (event) => {
@@ -80,6 +91,7 @@ const LabourWithFilter = (props) => {
                         color: "white",
                         backgroundColor: "navy",
                       }}
+                      key="select"
                     >
                       Select
                     </TableCell>
@@ -131,7 +143,11 @@ const LabourWithFilter = (props) => {
                             >
                               <TableCell>
                                 <input
-                                  onChange={() => {
+                                  checked={selected.some(
+                                    (ele) => ele.id === row.id
+                                  )}
+                                  onChange={(e) => {
+                                    checkHandler(e, idx);
                                     props.setLabourerId(id);
                                     props.setLabourName(name);
                                   }}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Form, Col, Button } from "react-bootstrap";
 import { connect } from "react-redux";
@@ -21,7 +21,7 @@ import PaymentListTable from "./PaymentListTable";
 import SiteModal from "../utilModals/siteModal";
 import { Spinner } from "react-bootstrap";
 import WeeklyTable from "./WeeklyTable";
-import fileSaver from "file-saver";
+import { useSnackbar } from "notistack";
 
 const columns = [
   { id: "task", label: "Task" },
@@ -50,6 +50,13 @@ const WeeklyPaymentTaskCode = ({
   });
 
   const classes = useStyles;
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const { enqueueSnackbar } = useSnackbar();
+  const showsuccErr = ({ msg, variant }) => {
+    enqueueSnackbar(msg, { variant });
+  };
 
   //decalaring states
   const [show, setShow] = useState(false);
@@ -61,37 +68,148 @@ const WeeklyPaymentTaskCode = ({
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
   const [siteCode, setSiteCode] = useState("");
-  const [labourerId, setLabourerId] = useState("")
-  const [labourTaskList, setLabourTaskList] = useState([])
-  const [labourInfo, setLabourInfo] = useState(null)
+  const [labourerId, setLabourerId] = useState("");
+  const [labourTaskList, setLabourTaskList] = useState([]);
+  const [labourInfo, setLabourInfo] = useState(null);
+  const [responce, setResponce] = useState([]);
+  const [visited, setVisited] = useState(false);
+  const [wage, setWage] = useState(0);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
+  useEffect(() => {
+    let tempwage = 0;
+    responce &&
+      responce
+        .filter((obj) =>
+          JSON.stringify(obj).toLowerCase().includes(query.toLowerCase())
+        )
+        ?.map((item, id) => {
+          tempwage += parseInt(item.daily_rate);
+        });
+
+    setWage(tempwage);
+  });
 
   const onSubmit = (data) => {
-    let Data = { fromdate: fromDate, todate: dateHandler(fromDate), siteid: siteid };
+    let Data = {
+      fromdate: fromDate,
+      todate: dateHandler(fromDate),
+      siteid: siteid,
+    };
+
+    if (data != Data) {
+      setVisited(false);
+      setResponce([]);
+    }
 
     setData(Data);
-
+    var arr = [];
+    if (!visited) setLoading(true);
     axios
-      .post(`${process.env.REACT_APP_API_URL}/wagemanage/weeksitecode_grosswage`, Data, {
-        headers: {
-          Authorization: `Token ${localStorage.getItem("token")}`,
-        },
-      })
+      .post(
+        `${process.env.REACT_APP_API_URL}/wagemanage/weeksitecode_grosswage`,
+        Data,
+        {
+          headers: {
+            Authorization: `Token ${localStorage.getItem("token")}`,
+          },
+        }
+      )
       .then((res) => {
-        if (res.data.status) {
+        if (res.data.data.length > 0 && res.data.status) {
           payment_list(res.data.data);
           payment_list_view({
             site: data.site,
             from_date: data.from_date,
             to_date: data.to_date,
           });
+
+          // if (!visited) {
+          let n = res.data.data.length;
+          res.data.data.map((obj, id) => {
+            let dataApi = { ...Data, labourerid: obj.labourerid };
+            axios
+              .post(
+                `${process.env.REACT_APP_API_URL}/wagemanage/weeksitecode_grosswage_detail`,
+                dataApi,
+                {
+                  headers: {
+                    Authorization: `Token ${localStorage.getItem("token")}`,
+                  },
+                }
+              )
+              .then((res) => {
+                if (res.data.status) {
+                  arr.push(res.data);
+                } else {
+                  alert(res.message);
+                }
+              })
+              .then((res) => {
+                n--;
+                if (n === 0) {
+                  setVisited(true);
+                  showsuccErr({
+                    msg: "data fetch successfully",
+                    variant: "success",
+                  });
+                  setLoading(false);
+                  setResponce(arr);
+                  arr = [];
+                }
+              })
+              .catch((error) => {
+                showsuccErr({ msg: error, variant: "error" });
+              });
+          });
+          // }
         } else {
-          alert(res.data.message);
+          if (!res.data.data.length)
+            showsuccErr({ msg: "No responce", variant: "error" });
+          else showsuccErr({ msg: res.data.message, variant: "error" });
+          setLoading(false);
         }
       })
       .catch((error) => {
-        alert(error);
+        showsuccErr({ msg: error, variant: "error" });
       });
   };
+
+  // useEffect(() => {
+  //   var arr = [...responce];
+  //   paymentList.map((obj, id) => {
+  //     let dataApi = { ...data, labourerid: obj.labourerid };
+  //     axios
+  //       .post(
+  //         `${process.env.REACT_APP_API_URL}/wagemanage/weeksitecode_grosswage_detail`,
+  //         dataApi,
+  //         {
+  //           headers: {
+  //             Authorization: `Token ${localStorage.getItem("token")}`,
+  //           },
+  //         }
+  //       )
+  //       .then((res) => {
+  //         if (res.data.status) {
+  //           arr.push(res.data);
+  //         } else {
+  //           alert(res.message);
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         alert(error);
+  //       });
+  //   });
+  //   setResponce(arr);
+  // }, [paymentList]);
 
   const revalidate = () => {
     let Data = { ...data, siteid: siteid };
@@ -168,35 +286,39 @@ const WeeklyPaymentTaskCode = ({
   //   };
 
   const onView = (labourerid) => {
-    getlabourDetails(labourerid)
-    setShowTask(true)
-  }
+    getlabourDetails(labourerid);
+    setShowTask(true);
+  };
 
   const getlabourDetails = (labourerId) => {
     const Data = {
       labourerid: labourerId,
       siteid: siteid,
       fromdate: fromDate,
-      todate: dateHandler(fromDate)
-    }
-      axios
-        .post(`${process.env.REACT_APP_API_URL}/wagemanage/weeksitecode_grosswage_detail`, Data, {
+      todate: dateHandler(fromDate),
+    };
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/wagemanage/weeksitecode_grosswage_detail`,
+        Data,
+        {
           headers: {
             Authorization: `Token ${localStorage.getItem("token")}`,
           },
-        })
-        .then((res) => {
-          if (res.data.status) {
-            setLabourTaskList(res.data.data);
-            setLabourInfo(res.data)
-          } else {
-            alert(res.data.message);
-          }
-        })
-        .catch((error) => {
-          alert(error);
-        });
-  }
+        }
+      )
+      .then((res) => {
+        if (res.data.status) {
+          setLabourTaskList(res.data.data);
+          setLabourInfo(res.data);
+        } else {
+          alert(res.data.message);
+        }
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  };
 
   return (
     <>
@@ -218,7 +340,12 @@ const WeeklyPaymentTaskCode = ({
         labourTaskList={labourTaskList}
       />
       {loading ? (
-        <Spinner animation="border" role="status" className="loading"></Spinner>
+        <Spinner
+          style={{ left: "50vw" }}
+          animation="border"
+          role="status"
+          className="loading"
+        ></Spinner>
       ) : null}
       <Form onSubmit={handleSubmit(onSubmit)} className="mt-5">
         <Form.Row>
@@ -318,14 +445,14 @@ const WeeklyPaymentTaskCode = ({
           <Button variant="primary" type="submit">
             Generate
           </Button>
-          {/* <div style={{ width: "50%", marginTop: "14px" }}>
+          <div style={{ width: "50%", marginTop: "14px" }}>
             <Form.Control
               style={{ textAlign: "center" }}
               type="text"
               placeholder="Search"
               onChange={(e) => setQuery(e.target.value)}
             />
-          </div> */}
+          </div>
         </div>
       </Form>
       <br />
@@ -357,34 +484,98 @@ const WeeklyPaymentTaskCode = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              {paymentList && paymentList.map(item => {
-                return (
-                  <TableRow>
-                    <TableCell>
-                      <Button onClick={() => onView(item.labourerid)}> View</Button>
-                    </TableCell>
-                    <TableCell>
-                      {item.labourerid}
-                    </TableCell>
-                    <TableCell>
-                      {item.name}
-                    </TableCell>
-                    <TableCell>
-                      {item.category}
-                    </TableCell>
-                    <TableCell>
-                      {item.desigination}
-                    </TableCell>
-                    <TableCell>
-                      {item.gross_wage}
-                    </TableCell>
-                  </TableRow>
-                )
-              })
-              }
+              {responce &&
+                responce
+                  .filter((obj) =>
+                    JSON.stringify(obj)
+                      .toLowerCase()
+                      .includes(query.toLowerCase())
+                  )
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  ?.map((item, id) => {
+                    return (
+                      <TableRow key={id}>
+                        <TableCell style={{ textAlign: "center" }}>
+                          <Button onClick={() => onView(item.labourerid)}>
+                            {" "}
+                            View
+                          </Button>
+                        </TableCell>
+                        <TableCell style={{ textAlign: "center" }}>
+                          {item.labourerid}
+                        </TableCell>
+                        <TableCell style={{ textAlign: "center" }}>
+                          {item.labourer_name}
+                        </TableCell>
+                        <TableCell style={{ textAlign: "center" }}>
+                          {item.category}
+                        </TableCell>
+                        <TableCell style={{ textAlign: "center" }}>
+                          {item.designation}
+                        </TableCell>
+                        <TableCell style={{ textAlign: "center" }}>
+                          {item.daily_rate}
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
             </TableBody>
+            {/* <TableBody>
+              {paymentList &&
+                paymentList.map((item) => {
+                  return (
+                    <TableRow>
+                      <TableCell style={{ textAlign: "center" }}>
+                        <Button onClick={() => onView(item.labourerid)}>
+                          {" "}
+                          View
+                        </Button>
+                      </TableCell>
+                      <TableCell style={{ textAlign: "center" }}>
+                        {item.labourerid}
+                      </TableCell>
+                      <TableCell style={{ textAlign: "center" }}>
+                        {item.name}
+                      </TableCell>
+                      <TableCell style={{ textAlign: "center" }}>
+                        {item.category}
+                      </TableCell>
+                      <TableCell style={{ textAlign: "center" }}>
+                        {item.desigination}
+                      </TableCell>
+                      <TableCell style={{ textAlign: "center" }}>
+                        {item.gross_wage}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+            </TableBody> */}
           </Table>
+          {responce.length ? (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                margin: "19px 47px 0px 20px",
+              }}
+            >
+              <h3 style={{ fontWeight: "330", fontSize: "1.33rem" }}>
+                Grand Total
+              </h3>
+              <h3 style={{ fontWeight: "430", fontSize: "1.33rem" }}>{wage}</h3>
+            </div>
+          ) : null}
         </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component="div"
+          count={responce.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </Paper>
     </>
   );

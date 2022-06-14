@@ -152,6 +152,10 @@ const EditUserData = ({
       ],
     },
     {
+      lable: "Task",
+      Option: [{ value: "task", title: "show" }],
+    },
+    {
       lable: "Labour Benefits",
       Option: [
         { value: "Allbenefits", title: "All" },
@@ -159,6 +163,18 @@ const EditUserData = ({
         { value: "adjustmentcredits", title: "Adjustment credit" },
         { value: "miscellenousdebits", title: "Miscellenous Debit" },
       ],
+    },
+    {
+      lable: "Compensation",
+      Option: [{ value: "compensation", title: "show" }],
+    },
+    {
+      lable: "Retention",
+      Option: [{ value: "retention", title: "show" }],
+    },
+    {
+      lable: "Arrears",
+      Option: [{ value: "arrears", title: "show" }],
     },
     {
       lable: "OT",
@@ -689,37 +705,41 @@ const EditUserData = ({
             </Form.Row>
             {RadioButton.map((obj, idx) => {
               return (
-                <FormControl className={classes.Obj}>
-                  <Form.Label className={classes.lable}>{obj.lable}</Form.Label>
-                  <RadioGroup row>
-                    {obj.Option.map((opt, id) => {
-                      return (
-                        <FormControlLabel
-                          className={classes.root}
-                          onChange={(e) => changeHandler({ e: e, obj: obj })}
-                          control={
-                            <Checkbox
-                              color="primary"
-                              checked={opt.isChecked || false}
-                              style={{ transform: "scale(0.8)" }}
-                            />
-                          }
-                          label={
-                            <span
-                              style={{
-                                fontSize: "0.8rem",
-                                color: "gray",
-                              }}
-                            >
-                              {opt.title}
-                            </span>
-                          }
-                          value={opt.value}
-                        />
-                      );
-                    })}
-                  </RadioGroup>
-                </FormControl>
+                <div>
+                  <FormControl className={classes.Obj}>
+                    <Form.Label className={classes.lable}>
+                      {obj.lable}
+                    </Form.Label>
+                    <RadioGroup row>
+                      {obj.Option.map((opt, id) => {
+                        return (
+                          <FormControlLabel
+                            className={classes.root}
+                            onChange={(e) => changeHandler({ e: e, obj: obj })}
+                            control={
+                              <Checkbox
+                                color="primary"
+                                checked={opt.isChecked || false}
+                                style={{ transform: "scale(0.8)" }}
+                              />
+                            }
+                            label={
+                              <span
+                                style={{
+                                  fontSize: "0.8rem",
+                                  color: "gray",
+                                }}
+                              >
+                                {opt.title}
+                              </span>
+                            }
+                            value={opt.value}
+                          />
+                        );
+                      })}
+                    </RadioGroup>
+                  </FormControl>
+                </div>
               );
             })}
             <Form.Row style={{ marginTop: "10px", marginLeft: "16px" }}>

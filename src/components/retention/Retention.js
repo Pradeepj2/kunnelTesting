@@ -81,6 +81,8 @@ const Retention = (props) => {
           setArr(res.data.data);
           if (res.data.data.length === 0)
             showsuccErr({ msg: "Empty", variant: "error" });
+
+          showsuccErr({ msg: "data fetch successfully", variant: "error" });
           settotalRetention(res.data.total_retention);
         } else {
           showsuccErr({ msg: res.data.message, variant: "error" });

@@ -175,37 +175,6 @@ const StickyHeadTable = (props) => {
     setRowsPerPage(event.target.value);
     setPage(0);
   };
-
-  const selectHandler = (row) => {
-    let Data = {
-      selected_for_ot: !row.selected_for_ot,
-      selector_name: !row.selected_for_ot ? localStorage.getItem("user") : "",
-    };
-    axios
-      .put(
-        `${process.env.REACT_APP_API_URL}/attendancemanage/ot_selector_name_approval_authorized/${row.id}/ `,
-        Data,
-        {
-          headers: {
-            Authorization: `Token ${localStorage.getItem("token")}`,
-          },
-        }
-      )
-      .then((response) => {
-        if (response.data.status) {
-          revalidate();
-          // window.location.reload();
-        } else {
-          showsuccErr({ msg: response.data.Message, variant: "error" });
-
-          // alert(response.data.Message);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
   const revalidate = () => {
     const curr_date = new Date();
     let Data = {
@@ -232,6 +201,35 @@ const StickyHeadTable = (props) => {
           setRows(finaldata);
         } else {
           alert(response.data.Message);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const selectHandler = (row) => {
+    let Data = {
+      selected_for_ot: !row.selected_for_ot,
+      selector_name: !row.selected_for_ot ? localStorage.getItem("user") : "",
+    };
+    axios
+      .put(
+        `${process.env.REACT_APP_API_URL}/attendancemanage/ot_selector_name_approval_authorized/${row.id}/ `,
+        Data,
+        {
+          headers: {
+            Authorization: `Token ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((response) => {
+        if (response.data.status) {
+          // revalidate();
+          window.location.reload();
+        } else {
+          showsuccErr({ msg: response.data.Message, variant: "error" });
+
+          // alert(response.data.Message);
         }
       })
       .catch((error) => {

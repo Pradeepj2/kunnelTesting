@@ -15,6 +15,7 @@ import TableRow from "@material-ui/core/TableRow";
 import { Button, Col } from "react-bootstrap";
 import { connect } from "react-redux";
 import { useSnackbar } from "notistack";
+import { ContactsOutlined } from "@material-ui/icons";
 const columns = [
   { id: "sl", lable: "SL", minWidth: 100 },
   { id: "week_range", lable: "Week Range" },
@@ -89,6 +90,7 @@ const Compensation = (props) => {
           setArr(res.data.data);
           if (res.data.data.length === 0)
             showsuccErr({ msg: "Empty", variant: "error" });
+          showsuccErr({ msg: "data fetch successfully", variant: "success" });
           setdailyRate(res.data.daily_rate_data);
           setTotalComponsation(res.data.total_compensation_amount);
           setTotalHolidayCount(res.data.total_holiday_count);

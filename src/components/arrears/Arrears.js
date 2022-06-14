@@ -79,6 +79,7 @@ const Arre = ({ sites, salaryCodes }) => {
       wagecode: wageCode,
       category: category,
     };
+
     axios
       .post(`${process.env.REACT_APP_API_URL}/wagemanage/arrears`, Data, {
         headers: {

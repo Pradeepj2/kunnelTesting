@@ -260,7 +260,7 @@ const StickyHeadTable = (props) => {
   const selectHandler = (row) => {
     let Data = {
       selector_name_concrete: localStorage.getItem("user"),
-      selected_for_concrete: true,
+      selected_for_concrete: !row.selected_for_concrete,
       concrete: selectedConcrete,
     };
     axios
@@ -275,8 +275,8 @@ const StickyHeadTable = (props) => {
       )
       .then((response) => {
         if (response.data.status) {
-          revalidate();
-          // window.location.reload();
+          // revalidate();
+          window.location.reload();
         } else {
           showsuccErr({ msg: response.data.Message, variant: "error" });
 
@@ -292,7 +292,7 @@ const StickyHeadTable = (props) => {
     const today = ((d) =>
       new Date(d.setDate(d.getDate())).toISOString().split("T")[0])(new Date());
     let Data = {
-      current_date: new Date().toISOString(),
+      current_date: new Date().toISOString().split("T")[0],
     };
     axios
       .post(
@@ -309,7 +309,10 @@ const StickyHeadTable = (props) => {
           let finaldata = response.data.map((data, id) => {
             return {
               ...data,
-              labourerid: data.labourerid.split("LAB00")[1],
+              labourerid:
+                data.labourerid[0] === "L"
+                  ? data.labourerid.split("LAB00")[1]
+                  : data.labourerid,
             };
           });
           setRows(finaldata);

@@ -46,7 +46,7 @@ const App = () => {
                     <UserManage />
                   </Layout>
                 </Route>
-                <Route path="/labourot">
+                <Route path="/labourot" exact>
                   <Layout>
                     <LabourOT />
                   </Layout>
