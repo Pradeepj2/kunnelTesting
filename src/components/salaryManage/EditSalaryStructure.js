@@ -6,6 +6,7 @@ import axios from "axios";
 import { edit_salary_struct_modal } from "../../redux/actions/fetchActions";
 import SiteModal from "../utilModals/siteModal";
 import { useSnackbar } from "notistack";
+import { Checkbox } from "@material-ui/core";
 
 const EditSalaryStructure = ({
   edit_salary_struct_modal,
@@ -31,6 +32,8 @@ const EditSalaryStructure = ({
   const [dailyAllowance, setDailyAllowance] = useState(
     salaryCodeEdit.daily_allowence
   );
+
+  console.log(salaryCodeEdit);
   const [category, setCategory] = useState(salaryCodeEdit.labourer_category);
   const [designation, setDesignation] = useState([]);
   const [total, setTotal] = useState("");
@@ -38,6 +41,12 @@ const EditSalaryStructure = ({
   const [siteid, setSiteid] = useState(salaryCodeEdit.Site);
   const [siteCode, setSiteCode] = useState(salaryCodeEdit.site_code);
   const [pre, Setpre] = useState([]);
+
+  const [arrearsNewDailyRate, setArrearsNewDailyRate] = useState("");
+  const [arrearsNewOtRate, setArrearsNewOtRate] = useState("");
+  const [arrearsFromDate, setArrearsFromDate] = useState("");
+
+  const [updateSalary, setUpdateSalary] = useState(false);
 
   useEffect(() => {
     setSiteid(salaryCodeEdit.Site);
@@ -539,6 +548,106 @@ const EditSalaryStructure = ({
                 </div>
               </Form.Group>
             </Form.Row>
+            <div>
+              <h4
+                style={{
+                  fontSize: "1.1rem",
+                  fontWeight: "310",
+                  marginBottom: "20px",
+                }}
+              >
+                Updated Salary
+                <Checkbox
+                  color="primary"
+                  checked={updateSalary}
+                  onClick={() => setUpdateSalary(!updateSalary)}
+                />
+              </h4>
+            </div>
+            {updateSalary ? (
+              <Form.Row>
+                <Form.Group as={Col} controlId="arrears_new_daily_rate">
+                  <Form.Label>Arrears New Daily Rate</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter the amount"
+                    defaultValue={
+                      arrearsNewDailyRate.length
+                        ? arrearsNewDailyRate
+                        : salaryCodeEdit.arrears_new_daily_rate
+                    }
+                    onChange={(e) => {
+                      setArrearsNewDailyRate(e.target.value);
+                    }}
+                    name="arrears_new_daily_rate"
+                    ref={register({
+                      required: true,
+                    })}
+                  />
+                  {errors.arrears_new_daily_rate?.type === "required" && (
+                    <p className="text-danger">
+                      <small>
+                        <i>This field is required</i>
+                      </small>
+                    </p>
+                  )}
+                </Form.Group>
+                <Form.Group as={Col} controlId="arrears_new_ot_rate">
+                  <Form.Label>Arrears New OT Rate</Form.Label>
+                  <Form.Control
+                    type="text"
+                    defaultValue={
+                      arrearsNewOtRate.length
+                        ? arrearsNewOtRate
+                        : salaryCodeEdit.arrears_new_ot_rate
+                    }
+                    // value={arrearsNewOtRate}
+                    placeholder="Enter new Ot rate"
+                    name="arrears_new_ot_rate"
+                    onChange={(e) => {
+                      setArrearsNewOtRate(e.target.value);
+                      // setDailyRate(+dailyAllowance + +basicPay)
+                      //console.log(dailyRate)
+                    }}
+                    ref={register({
+                      required: true,
+                    })}
+                  />
+                  {errors.arrears_new_ot_rate?.type === "required" && (
+                    <p className="text-danger">
+                      <small>
+                        <i>This field is required</i>
+                      </small>
+                    </p>
+                  )}
+                </Form.Group>
+                <Form.Group as={Col} controlId="arrears_from_date">
+                  <Form.Label>Arrears From Date</Form.Label>
+                  <Form.Control
+                    type="date"
+                    defaultValue={
+                      arrearsFromDate
+                        ? arrearsFromDate
+                        : salaryCodeEdit.arrears_from_date
+                    }
+                    // value={arrearsFromDate}
+                    onChange={(e) => setArrearsFromDate(e.target.value)}
+                    name="arrears_from_date"
+                    ref={register({
+                      required: true,
+                    })}
+                  />
+                  {errors.arrears_from_date?.type === "required" && (
+                    <p className="text-danger">
+                      <small>
+                        <i>This field is required</i>
+                      </small>
+                    </p>
+                  )}
+                </Form.Group>
+              </Form.Row>
+            ) : null}
+
             <Form.Row>
               <Form.Group as={Col} controlId="OTrate">
                 <Form.Label>OT Rate</Form.Label>

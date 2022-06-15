@@ -65,7 +65,7 @@ const WeeklyPaymentTaskCode = ({
   const [fromDate, setFromDate] = useState();
   const [toDate, setToDate] = useState();
   const [query, setQuery] = useState("");
-  const [data, setData] = useState();
+  const [datas, setData] = useState();
   const [loading, setLoading] = useState(false);
   const [siteCode, setSiteCode] = useState("");
   const [labourerId, setLabourerId] = useState("");
@@ -86,33 +86,27 @@ const WeeklyPaymentTaskCode = ({
 
   useEffect(() => {
     let tempwage = 0;
-    responce &&
-      responce
+    paymentList &&
+      paymentList
         .filter((obj) =>
           JSON.stringify(obj).toLowerCase().includes(query.toLowerCase())
         )
         ?.map((item, id) => {
-          tempwage += parseInt(item.daily_rate);
+          tempwage += parseInt(item.gross_wage);
         });
 
     setWage(tempwage);
   });
 
   const onSubmit = (data) => {
+    payment_list([]);
     let Data = {
       fromdate: fromDate,
       todate: dateHandler(fromDate),
       siteid: siteid,
     };
-
-    if (data != Data) {
-      setVisited(false);
-      setResponce([]);
-    }
-
     setData(Data);
-    var arr = [];
-    if (!visited) setLoading(true);
+    setLoading(true);
     axios
       .post(
         `${process.env.REACT_APP_API_URL}/wagemanage/weeksitecode_grosswage`,
@@ -131,45 +125,47 @@ const WeeklyPaymentTaskCode = ({
             from_date: data.from_date,
             to_date: data.to_date,
           });
+          setLoading(false);
+          showsuccErr({ msg: "data fetch successfully", variant: "success" });
 
-          // if (!visited) {
-          let n = res.data.data.length;
-          res.data.data.map((obj, id) => {
-            let dataApi = { ...Data, labourerid: obj.labourerid };
-            axios
-              .post(
-                `${process.env.REACT_APP_API_URL}/wagemanage/weeksitecode_grosswage_detail`,
-                dataApi,
-                {
-                  headers: {
-                    Authorization: `Token ${localStorage.getItem("token")}`,
-                  },
-                }
-              )
-              .then((res) => {
-                if (res.data.status) {
-                  arr.push(res.data);
-                } else {
-                  alert(res.message);
-                }
-              })
-              .then((res) => {
-                n--;
-                if (n === 0) {
-                  setVisited(true);
-                  showsuccErr({
-                    msg: "data fetch successfully",
-                    variant: "success",
-                  });
-                  setLoading(false);
-                  setResponce(arr);
-                  arr = [];
-                }
-              })
-              .catch((error) => {
-                showsuccErr({ msg: error, variant: "error" });
-              });
-          });
+          // // if (!visited) {
+          // let n = res.data.data.length;
+          // res.data.data.map((obj, id) => {
+          //   let dataApi = { ...Data, labourerid: obj.labourerid };
+          //   axios
+          //     .post(
+          //       `${process.env.REACT_APP_API_URL}/wagemanage/weeksitecode_grosswage_detail`,
+          //       dataApi,
+          //       {
+          //         headers: {
+          //           Authorization: `Token ${localStorage.getItem("token")}`,
+          //         },
+          //       }
+          //     )
+          //     .then((res) => {
+          //       if (res.data.status) {
+          //         arr.push(res.data);
+          //       } else {
+          //         alert(res.message);
+          //       }
+          //     })
+          //     .then((res) => {
+          //       n--;
+          //       if (n === 0) {
+          //         setVisited(true);
+          //         showsuccErr({
+          //           msg: "data fetch successfully",
+          //           variant: "success",
+          //         });
+          //         setLoading(false);
+          //         setResponce(arr);
+          //         arr = [];
+          //       }
+          //     })
+          //     .catch((error) => {
+          //       showsuccErr({ msg: error, variant: "error" });
+          //     });
+          // });
           // }
         } else {
           if (!res.data.data.length)
@@ -212,7 +208,7 @@ const WeeklyPaymentTaskCode = ({
   // }, [paymentList]);
 
   const revalidate = () => {
-    let Data = { ...data, siteid: siteid };
+    let Data = { ...datas, siteid: siteid };
     axios
       .post(
         //`${process.env.REACT_APP_API_URL}/wagemanage/wages/mark_payments/?siteid=` +
@@ -228,9 +224,9 @@ const WeeklyPaymentTaskCode = ({
         if (res.data.status) {
           payment_list(res.data.data);
           payment_list_view({
-            site: data.site,
-            from_date: data.from_date,
-            to_date: data.to_date,
+            site: datas.site,
+            from_date: datas.from_date,
+            to_date: datas.to_date,
           });
         } else {
           alert(res.data.message);
@@ -484,8 +480,8 @@ const WeeklyPaymentTaskCode = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              {responce &&
-                responce
+              {paymentList &&
+                paymentList
                   .filter((obj) =>
                     JSON.stringify(obj)
                       .toLowerCase()
@@ -505,16 +501,16 @@ const WeeklyPaymentTaskCode = ({
                           {item.labourerid}
                         </TableCell>
                         <TableCell style={{ textAlign: "center" }}>
-                          {item.labourer_name}
+                          {item.name}
                         </TableCell>
                         <TableCell style={{ textAlign: "center" }}>
                           {item.category}
                         </TableCell>
                         <TableCell style={{ textAlign: "center" }}>
-                          {item.designation}
+                          {item.desigination}
                         </TableCell>
                         <TableCell style={{ textAlign: "center" }}>
-                          {item.daily_rate}
+                          {item.gross_wage}
                         </TableCell>
                       </TableRow>
                     );

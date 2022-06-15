@@ -7,6 +7,7 @@ import { create_salary_structure_modal } from "../../redux/actions/fetchActions"
 import SiteModal from "../utilModals/siteModal";
 import { useSnackbar } from "notistack";
 import { salary_codes } from "../../redux/actions/siteActions";
+import { Checkbox } from "@material-ui/core";
 
 const CreateSalaryStructure = ({
   create_salary_structure_modal,
@@ -502,6 +503,18 @@ const CreateSalaryStructure = ({
               </Form.Group>
             </Form.Row>
             {/* ******************************************** */}
+            {/* <div>
+              <h4
+                style={{
+                  fontSize: "1.1rem",
+                  fontWeight: "310",
+                  marginBottom: "20px",
+                }}
+              >
+                Updated Salary
+                <Checkbox />
+              </h4>
+            </div> */}
             <Form.Row>
               <Form.Group as={Col} controlId="arrears_new_daily_rate">
                 <Form.Label>Arrears New Daily Rate</Form.Label>
@@ -614,26 +627,6 @@ const CreateSalaryStructure = ({
                   </p>
                 )}
               </Form.Group> */}
-              <Form.Group as={Col} controlId="pf">
-                <Form.Label>PF</Form.Label>
-                <Form.Control
-                  type="number"
-                  placeholder="Enter the PF"
-                  name="pf"
-                  step="any"
-                  // step="any"
-                  ref={register({
-                    required: true,
-                  })}
-                />
-                {errors.pf?.type === "required" && (
-                  <p className="text-danger">
-                    <small>
-                      <i>This field is required</i>
-                    </small>
-                  </p>
-                )}
-              </Form.Group>
             </Form.Row>
             <Form.Row>
               <Form.Group as={Col} controlId="holiday_wage">
@@ -861,6 +854,26 @@ const CreateSalaryStructure = ({
                   <p className="text-danger">
                     <small>
                       <i>already exists</i>
+                    </small>
+                  </p>
+                )}
+              </Form.Group>
+              <Form.Group as={Col} controlId="pf">
+                <Form.Label>PF</Form.Label>
+                <Form.Control
+                  type="number"
+                  placeholder="Enter the PF"
+                  name="pf"
+                  step="any"
+                  // step="any"
+                  ref={register({
+                    required: true,
+                  })}
+                />
+                {errors.pf?.type === "required" && (
+                  <p className="text-danger">
+                    <small>
+                      <i>This field is required</i>
                     </small>
                   </p>
                 )}

@@ -56,6 +56,8 @@ const StickyHeadTable = (props) => {
       date: yesterday,
     };
 
+    console.log(Data, "yesterdaysDate");
+
     axios
       .post(
         `${process.env.REACT_APP_API_URL}/attendancemanage/ot_approval_list `,

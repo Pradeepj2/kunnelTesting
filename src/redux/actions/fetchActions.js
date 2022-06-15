@@ -36,26 +36,26 @@ export const advance_pending_list = (data) => async (dispatch) => {
 };
 
 export const advance_total_list = (data) => async (dispatch) => {
-  axios
-    .get(`${process.env.REACT_APP_API_URL}/advance/advance_list/`, {
-      headers: {
-        Authorization: `Token ${localStorage.getItem("token")}`,
-      },
-    })
-    .then((response) => {
-      if (response.status === 200) {
-        // console.log(renpssponse.data, "FINSL");
-        dispatch({
-          type: "ADVANCE_TOTAL_LIST",
-          payload: response.data,
-        });
-      }
-    })
-    .catch((error) => {
-      error?.response?.data?.message
-        ? alert(error?.response?.data?.message)
-        : alert("Something went wrong");
-    });
+  // axios
+  //   .get(`${process.env.REACT_APP_API_URL}/advance/advance_list/`, {
+  //     headers: {
+  //       Authorization: `Token ${localStorage.getItem("token")}`,
+  //     },
+  //   })
+  //   .then((response) => {
+  //     if (response.status === 200) {
+  //       // console.log(renpssponse.data, "FINSL");
+  //       dispatch({
+  //         type: "ADVANCE_TOTAL_LIST",
+  //         payload: response.data,
+  //       });
+  //     }
+  //   })
+  //   .catch((error) => {
+  //     error?.response?.data?.message
+  //       ? alert(error?.response?.data?.message)
+  //       : alert("Something went wrong");
+  //   });
 };
 export const apply_advance_modal = (data) => async (dispatch) => {
   dispatch({
